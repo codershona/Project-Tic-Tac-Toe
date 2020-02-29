@@ -34,11 +34,34 @@ function turnClick(square) {
 function turn(squareId, player) {
   origBoard[squareId] = player;
   document.getElementById(squareId).innerText = player;
-
-}
-
 // Determine winner
+let gameWon = checkWin(origBoard, player)
+if (gameWon) gameOver(gameWon)
+}
+// Determine winner
+ function checkWin(board, player) {
+   let plays = board.reduce((a, e, i) =>
+   (e === player) ? a.concat(i) : a, []);
+   let gamewon = null;
+   for (let [index, win] of winCombos.entries()) {
+     if (win.every(elem => plays.indexOf(elem) > -1)) {
+       gameWon = {index: index, player: player};
+       break;
+     }
+   }
 
+    return gameWon;
+ }
+
+ function gameOver(gameWon) {
+   for (let index of winCombos[gameWon.index]) {
+     document.getElementById(index).style.backgroundColor =
+     gameWon.player == huPlayer ? "blue" : "red";
+   }
+   for (var i = 0; i < cells.length; i++) {
+     cells[i].removeEventListener('click', turnClick, false);
+   }
+ }
 
 // Basic AI and Winner notification
 
