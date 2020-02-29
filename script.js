@@ -25,6 +25,15 @@ function startGame() {
     cells[i].style.removeProperty('background-color');
     cells[i].addEventListener('click', turnClick, false);
   }
+}
+
+function turnClick(square) {
+  // console.log(square.target.id)
+  turn(square.target.id, huPlayer)
+}
+function turn(squareId, player) {
+  origBoard[squareId] = player;
+  document.getElementById(squareId).innerText = player;
 
 }
 
